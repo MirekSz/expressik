@@ -21,7 +21,6 @@ export interface MoveService {
 class MoveServiceImpl implements MoveService {
     public getNextMove(board:Board):Move {
         var result;
-
         while (true) {
             var x = Math.floor((Math.random() * 3) + 1);
             var y = Math.floor((Math.random() * 3) + 1);
