@@ -16,7 +16,11 @@ gulp.task('less', function () {
         .pipe(livereload());
 });
 
-gulp.task('watch', ['start'], function () {
+gulp.task('watch-nodemon', ['start'], function () {
+    livereload.listen();
+    gulp.watch('refresh.js', ['less']);
+});
+gulp.task('watch', function () {
     livereload.listen();
     gulp.watch('refresh.js', ['less']);
 });
