@@ -3,10 +3,11 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon');
 gulp.task('start', function () {
     nodemon({
+        exec:'node --debug',
         script: 'bin/www'
         , ext: 'js hbs ts',
         ignore: ['refresh.js'],
-        debug: true
+        debug: 5858
         , env: {'NODE_ENV': 'development'}
     })
 })
