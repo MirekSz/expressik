@@ -21,7 +21,7 @@ export interface MoveService {
 }
 class MoveServiceImpl implements MoveService {
 
-    // @CheckParams()
+    @CheckParams()
     public getNextMove(board:Board):Move {
         var conString = "postgres://postgres:postgres@localhost:5433/postgres";
 
