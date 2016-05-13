@@ -1,4 +1,5 @@
 "use strict";
+var pg = require('pg');
 var Board = (function () {
     function Board(x1y1, x2y1, x3y1, x1y2, x2y2, x3y2, x1y3, x2y3, x3y3) {
         this.x1y1 = x1y1;
@@ -16,7 +17,16 @@ var Board = (function () {
 var MoveServiceImpl = (function () {
     function MoveServiceImpl() {
     }
+    // @CheckParams()
     MoveServiceImpl.prototype.getNextMove = function (board) {
+        var conString = "postgres://postgres:postgres@localhost:5433/postgres";
+        pg.connect(conString, function (err, client, done) {
+            var query = client.query("select * from teacher", function (err, data) {
+                console.log(data.rows[0].email);
+            });
+            console.log(err);
+            console.log(done);
+        });
         var result;
         while (true) {
             var x = Math.floor((Math.random() * 3) + 1);
@@ -32,6 +42,6 @@ var MoveServiceImpl = (function () {
     return MoveServiceImpl;
 }());
 var service = new MoveServiceImpl();
-exports.__esModule = true;
-exports["default"] = service;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = service;
 //# sourceMappingURL=MoveService.js.map

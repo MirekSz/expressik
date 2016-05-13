@@ -8,3 +8,7 @@
 /// <reference path="react/react.d.ts" />
 /// <reference path="redux/redux.d.ts" />
 /// <reference path="superagent/superagent.d.ts" />
+/// <reference path="pg/pg.d.ts" />
+/// <reference path="express-serve-static-core/express-serve-static-core.d.ts" />
+/// <reference path="mime/mime.d.ts" />
+/// <reference path="serve-static/serve-static.d.ts" />

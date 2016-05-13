@@ -18,7 +18,7 @@
       "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
     },
     "node/node.d.ts": {
-      "commit": "ba424f7ee39717d51c17699a09ac8df312a7e9a1"
+      "commit": "1ec3d510e0c4d7c50e708ca7cb0765c7e06fa2ed"
     },
     "express/express.d.ts": {
       "commit": "32f0a90dab26f70b206407ac24d4d622d0f0f408"
@@ -34,6 +34,18 @@
     },
     "superagent/superagent.d.ts": {
       "commit": "e15e4664aa43a31ef0231aa5084877351ea50457"
+    },
+    "pg/pg.d.ts": {
+      "commit": "1ec3d510e0c4d7c50e708ca7cb0765c7e06fa2ed"
+    },
+    "mime/mime.d.ts": {
+      "commit": "1ec3d510e0c4d7c50e708ca7cb0765c7e06fa2ed"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "1ec3d510e0c4d7c50e708ca7cb0765c7e06fa2ed"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "1ec3d510e0c4d7c50e708ca7cb0765c7e06fa2ed"
     }
   }
 }

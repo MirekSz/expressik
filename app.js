@@ -1,3 +1,5 @@
+/// <reference path='./typings/tsd.d.ts' />
+
 var express = require('express');
 //var cheerio = require('cheerio');
 var interceptor = require('express-interceptor');

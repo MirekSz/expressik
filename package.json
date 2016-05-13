@@ -16,6 +16,8 @@
     "hbs": "~3.1.0",
     "morgan": "~1.6.1",
     "nodemon": "^1.9.2",
+    "pg": "^4.5.5",
+    "runtime-type-checks": "0.0.4",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

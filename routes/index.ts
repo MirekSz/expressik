@@ -1,7 +1,5 @@
-/// <reference path='../typings/express/express.d.ts' />
-
-import {Response, Request} from "express";
 import service, {MoveService} from "./MoveService";
+import {Request,Response} from "express";
 var express = require('express');
 var router = express.Router();
 
@@ -12,8 +10,6 @@ router.get('/', function (req:Request, res:Response, next) {
 
 var handleMove = function (req:Request, res:Response, next) {
     var move = service.getNextMove(req.body);
-
-    // res.render('index', {title: JSON.stringify(result)});
     res.setHeader('ala', 'ma kota2');
     res.json(move);
     res.end();
