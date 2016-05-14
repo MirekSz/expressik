@@ -21,17 +21,17 @@ export interface MoveService {
 }
 class MoveServiceImpl implements MoveService {
 
-    @CheckParams()
+    // @CheckParams()
     public getNextMove(board:Board):Move {
         var conString = "postgres://postgres:postgres@localhost:5433/postgres";
 
-        pg.connect(conString, (err, client, done)=> {
-            var query = client.query("select * from teacher",(err,data)=> {
-                console.log(data.rows[0].email);
-            });
-            console.log(err);
-            console.log(done);
-        });
+        // pg.connect(conString, (err, client, done)=> {
+        //     var query = client.query("select * from teacher",(err,data)=> {
+        //         console.log(data.rows[0].email);
+        //     });
+        //     console.log(err);
+        //     console.log(done);
+        // });
 
 
         var result;
