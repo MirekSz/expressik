@@ -1,12 +1,32 @@
 import service, {MoveService} from "./MoveService";
-import {Request,Response} from "express";
+import {Request, Response} from "express";
+import {RequestParamHandler} from "express";
+import {NextFunction} from "express";
 var express = require('express');
 var router = express.Router();
 
+interface ExtRequest extends Request{
+    model?:{[key:string]:any};
+}
+
+interface  ExtRequestParamHandler extends RequestParamHandler{
+    (req: ExtRequest, res: Response, next: NextFunction, param: any): any;
+
+}
+
+
+
 /* GET home page. */
-router.get('/', function (req:Request, res:Response, next) {
-    res.render('index', {title: 'Express 223'});
-});
+router.get('/', function (req:ExtRequest, res, next) {
+        req.model={};
+        req.model['name'] = 'mirek';
+        next();
+    },
+    handle((req:ExtRequest, res:Response, model)=> {
+        console.log(req.model);
+        model.title = 'Express hura';
+        res.render('index', model);
+    }));
 
 var handleMove = function (req:Request, res:Response, next) {
     var move = service.getNextMove(req.body);
@@ -14,6 +34,18 @@ var handleMove = function (req:Request, res:Response, next) {
     res.json(move);
     res.end();
 };
-router.post('/getNextMove', handleMove);
-router.get('/getNextMove', handleMove);
+
+function handle(handler) {
+    return function (req, res) {
+        handler(req, res, {menu: 'Predefined menu'});
+    }
+}
+
+
+router.get('/users/:id/:state',handle((req:ExtRequest, res:Response, model)=> {
+    model.title = 'User id = '+JSON.stringify( req.params);
+    res.render('index', model);
+}));
+
+router.all('/getNextMove', handleMove);
 module.exports = router;

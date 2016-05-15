@@ -35,10 +35,12 @@ var app = express();
 //
 //// Add the interceptor middleware
 //app.use(finalParagraphInterceptor);
-
+var exphbs = require('express-handlebars');
+//https://github.com/ericf/express-handlebars
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', exphbs({defaultLayout: 'single', extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
