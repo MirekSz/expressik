@@ -1,5 +1,7 @@
 import {CheckParams, CheckReturn} from "runtime-type-checks/index";
 import * as pg from 'pg';
+import * as orm from 'orm';
+
 interface Move {
     x:number;
     y:number;
@@ -21,19 +23,19 @@ export interface MoveService {
 }
 class MoveServiceImpl implements MoveService {
 
-    @CheckParams()
+    // @CheckParams()
     public getNextMove(board:Board):Move {
         var conString = "postgres://postgres:postgres@localhost:5433/postgres";
 
         pg.connect(conString, (err, client, done)=> {
-            var query = client.query("select * from teacher",(err,data)=> {
+            var query = client.query("select * from teacher", (err, data)=> {
                 console.log(data.rows[0].email);
             });
             console.log(err);
             console.log(done);
         });
 
-
+        yo();//.then((data)=>{console.log(data)});
         var result;
         while (true) {
             var x = Math.floor((Math.random() * 3) + 1);
@@ -49,5 +51,34 @@ class MoveServiceImpl implements MoveService {
         return result;
     }
 }
+
+async function yo() {
+    return new Promise(function (resolve, reject) {
+        var conString = "postgres://postgres:postgres@localhost:5433/postgres?debug=true";
+        orm.connect(conString, function (err, db) {
+            if (err) throw err;
+
+            var Person = db.define("teacher", {
+                id: Number,
+                email: String,
+                firstname: String,
+                lastname: String
+            });
+            Person.find({firstname:'domi'},function (e,data) {
+                var domi = data[0];
+                domi.lastname='asd';
+                domi.save();
+            })
+            Person.get(101, (err, person)=> {
+                if (err) throw err;
+                console.log(JSON.stringify(person));
+                person.firstname = 'domi';
+                // person.save();
+                resolve(person.email);
+            });
+        })
+1
+    })
+};
 let service = new MoveServiceImpl();
 export default service;
