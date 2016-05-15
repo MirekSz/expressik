@@ -12,3 +12,5 @@
 /// <reference path="express-serve-static-core/express-serve-static-core.d.ts" />
 /// <reference path="mime/mime.d.ts" />
 /// <reference path="serve-static/serve-static.d.ts" />
+/// <reference path="/node_modules/orm/lib/TypeScript/orm.d.ts" />
+/// <reference path="/node_modules/orm/lib/TypeScript/sql-query.d.ts" />
