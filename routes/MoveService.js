@@ -1,17 +1,16 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments)).next());
+    });
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var index_1 = require("runtime-type-checks/index");
-var pg = require('pg');
-var Board = (function () {
-    function Board(x1y1, x2y1, x3y1, x1y2, x2y2, x3y2, x1y3, x2y3, x3y3) {
+const pg = require('pg');
+const orm = require('orm');
+class Board {
+    constructor(x1y1, x2y1, x3y1, x1y2, x2y2, x3y2, x1y3, x2y3, x3y3) {
         this.x1y1 = x1y1;
         this.x2y1 = x2y1;
         this.x3y1 = x3y1;
@@ -22,41 +21,63 @@ var Board = (function () {
         this.x2y3 = x2y3;
         this.x3y3 = x3y3;
     }
-    return Board;
-}());
-var MoveServiceImpl = (function () {
-    function MoveServiceImpl() {
-    }
-    MoveServiceImpl.prototype.getNextMove = function (board) {
+}
+class MoveServiceImpl {
+    // @CheckParams()
+    getNextMove(board) {
         var conString = "postgres://postgres:postgres@localhost:5433/postgres";
-        pg.connect(conString, function (err, client, done) {
-            var query = client.query("select * from teacher", function (err, data) {
+        pg.connect(conString, (err, client, done) => {
+            var query = client.query("select * from teacher", (err, data) => {
                 console.log(data.rows[0].email);
             });
             console.log(err);
             console.log(done);
         });
+        yo(); //.then((data)=>{console.log(data)});
         var result;
         while (true) {
             var x = Math.floor((Math.random() * 3) + 1);
             var y = Math.floor((Math.random() * 3) + 1);
-            var field = "x" + x + "y" + y;
+            var field = `x${x}y${y}`;
             if (!board[field]) {
                 result = { x: x, y: y };
                 break;
             }
         }
         return result;
-    };
-    __decorate([
-        index_1.CheckParams(), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [Board]), 
-        __metadata('design:returntype', Object)
-    ], MoveServiceImpl.prototype, "getNextMove", null);
-    return MoveServiceImpl;
-}());
-var service = new MoveServiceImpl();
+    }
+}
+function yo() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise(function (resolve, reject) {
+            var conString = "postgres://postgres:postgres@localhost:5433/postgres?debug=true";
+            orm.connect(conString, function (err, db) {
+                if (err)
+                    throw err;
+                var Person = db.define("teacher", {
+                    id: Number,
+                    email: String,
+                    firstname: String,
+                    lastname: String
+                });
+                Person.find({ firstname: 'domi' }, function (e, data) {
+                    var domi = data[0];
+                });
+                Person.get(101, (err, person) => {
+                    if (err)
+                        throw err;
+                    console.log(JSON.stringify(person));
+                    person.firstname = 'domi';
+                    // person.save();
+                    resolve(person.email);
+                });
+            });
+            1;
+        });
+    });
+}
+;
+let service = new MoveServiceImpl();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = service;
 //# sourceMappingURL=MoveService.js.map
