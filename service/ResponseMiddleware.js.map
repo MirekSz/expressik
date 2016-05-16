@@ -1,0 +1,1 @@
+{"version":3,"file":"ResponseMiddleware.js","sourceRoot":"","sources":["ResponseMiddleware.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,GAAG,UAAU,GAAG,EAAE,GAAG,EAAE,IAAI;IACrC,IAAI,EAAE,CAAC;IACP,OAAO,CAAC,GAAG,CAAC,YAAY,EAAE,GAAG,CAAC,UAAU,CAAC,CAAC;AAC9C,CAAC,CAAA"}
