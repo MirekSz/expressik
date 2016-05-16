@@ -35,7 +35,6 @@ router.get('/', handle((req:ExtRequest, res, model, next)=> {
 router.get('/', handle((req:ExtRequest, res:Response, model)=> {
     console.log('2: ');
     model.title = 'Express hura';
-    model.json();
     res.render('index', model);
 }));
 
@@ -50,9 +49,7 @@ function handle(handler) {
     return function (req, res, next) {
         if (!req.model) {
             req.model = {
-                menu: 'Predefined menu', json: ()=> {
-                    req.model.json = JSON.stringify(req.model);
-                }
+                menu: 'Predefined menu'
             };
         }
         handler(req, res, req.model, next);

@@ -20,7 +20,6 @@ router.get('/', handle((req, res, model, next) => {
 router.get('/', handle((req, res, model) => {
     console.log('2: ');
     model.title = 'Express hura';
-    model.json();
     res.render('index', model);
 }));
 var handleMove = function (req, res, next) {
@@ -33,9 +32,7 @@ function handle(handler) {
     return function (req, res, next) {
         if (!req.model) {
             req.model = {
-                menu: 'Predefined menu', json: () => {
-                    req.model.json = JSON.stringify(req.model);
-                }
+                menu: 'Predefined menu'
             };
         }
         handler(req, res, req.model, next);

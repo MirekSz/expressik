@@ -45,8 +45,13 @@ var hbs = exphbs.create({
         bar: function () {
             return 'BAR!';
         },
-       js: function(context) {
-            return JSON.stringify(context);
+        js: function (context) {
+            var dest = {};
+            Object.assign(dest, context);
+            delete dest.settings;
+            delete dest._locals;
+            delete dest.cache;
+            return JSON.stringify(dest);
         }
     }
 });
