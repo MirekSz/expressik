@@ -23,16 +23,26 @@ class Board {
     }
 }
 class MoveServiceImpl {
+    getValueFromDB() {
+        return new Promise(function (resolve, reject) {
+            var conString2 = "postgres://verto_dev:verto_devverto_dev@strumyk-next-db:5432/verto_dev";
+            var client = new pg.Client(conString2);
+            client.connect(() => {
+                var query = "SELECT ID_OPERATOR_GROUP,NAME as name FROM OPERATOR_GROUP";
+                client.query(query, (err, data) => {
+                    if (err)
+                        reject(err);
+                    for (var i = 0; i < data.rows.length; i++) {
+                        var obj = data.rows[i];
+                        // console.log(obj);
+                        resolve(obj.name);
+                    }
+                });
+            });
+        });
+    }
     // @CheckParams()
     getNextMove(board) {
-        var conString = "postgres://postgres:postgres@localhost:5433/postgres";
-        pg.connect(conString, (err, client, done) => {
-            var query = client.query("select * from teacher", (err, data) => {
-                console.log(data.rows[0].email);
-            });
-            console.log(err);
-            console.log(done);
-        });
         yo(); //.then((data)=>{console.log(data)});
         var result;
         while (true) {
@@ -47,6 +57,9 @@ class MoveServiceImpl {
         return result;
     }
 }
+const service = new MoveServiceImpl();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = service;
 function yo() {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise(function (resolve, reject) {
@@ -62,6 +75,8 @@ function yo() {
                 });
                 Person.find({ firstname: 'domi' }, function (e, data) {
                     var domi = data[0];
+                    domi.lastname = 'asd';
+                    domi.save();
                 });
                 Person.get(101, (err, person) => {
                     if (err)
@@ -72,12 +87,7 @@ function yo() {
                     resolve(person.email);
                 });
             });
-            1;
         });
     });
 }
-;
-let service = new MoveServiceImpl();
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = service;
 //# sourceMappingURL=MoveService.js.map

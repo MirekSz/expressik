@@ -18,23 +18,29 @@ class Board {
     }
 }
 
-export interface MoveService {
+class MoveServiceImpl {
 
-}
-class MoveServiceImpl implements MoveService {
+    public getValueFromDB():Promise<string> {
+        return new Promise(function (resolve, reject) {
+            var conString2 = "postgres://verto_dev:verto_devverto_dev@strumyk-next-db:5432/verto_dev";
+            var client = new pg.Client(conString2);
+
+            client.connect(()=> {
+                var query = "SELECT ID_OPERATOR_GROUP,NAME as name FROM OPERATOR_GROUP";
+                client.query(query, (err, data)=> {
+                    if (err)  reject(err);
+                    for (var i = 0; i < data.rows.length; i++) {
+                        var obj = data.rows[i];
+                        // console.log(obj);
+                        resolve(obj.name);
+                    }
+                })
+            });
+        });
+    }
 
     // @CheckParams()
     public getNextMove(board:Board):Move {
-        var conString = "postgres://postgres:postgres@localhost:5433/postgres";
-
-        pg.connect(conString, (err, client, done)=> {
-            var query = client.query("select * from teacher", (err, data)=> {
-                console.log(data.rows[0].email);
-            });
-            console.log(err);
-            console.log(done);
-        });
-
         yo();//.then((data)=>{console.log(data)});
         var result;
         while (true) {
@@ -52,6 +58,9 @@ class MoveServiceImpl implements MoveService {
     }
 }
 
+const service = new MoveServiceImpl();
+export default service;
+
 async function yo() {
     return new Promise(function (resolve, reject) {
         var conString = "postgres://postgres:postgres@localhost:5433/postgres?debug=true";
@@ -64,11 +73,11 @@ async function yo() {
                 firstname: String,
                 lastname: String
             });
-            Person.find({firstname:'domi'},function (e,data) {
+            Person.find({firstname: 'domi'}, function (e, data) {
                 var domi = data[0];
-                domi.lastname='asd';
+                domi.lastname = 'asd';
                 domi.save();
-            })
+            });
             Person.get(101, (err, person)=> {
                 if (err) throw err;
                 console.log(JSON.stringify(person));
@@ -77,8 +86,5 @@ async function yo() {
                 resolve(person.email);
             });
         })
-1
     })
-};
-let service = new MoveServiceImpl();
-export default service;
+}

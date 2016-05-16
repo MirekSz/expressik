@@ -3,13 +3,23 @@ const MoveService_1 = require("./MoveService");
 var express = require('express');
 var router = express.Router();
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    req.model = {};
-    req.model['name'] = 'mirek';
-    next();
-}, handle(function (req, res, model) {
-    console.log(req.model);
+router.get('/', handle((req, res, model, next) => {
+    console.log('1: ');
+    model['name'] = 'mirek';
+    MoveService_1.default.getValueFromDB().then((data) => {
+        console.log('data: ');
+        console.log(data);
+        model['val'] = data;
+        next();
+    }).catch((dupa) => {
+        console.log('dupa: ');
+        console.log(dupa);
+    });
+}));
+router.get('/', handle((req, res, model) => {
+    console.log('2: ');
     model.title = 'Express hura';
+    model.json();
     res.render('index', model);
 }));
 var handleMove = function (req, res, next) {
@@ -19,11 +29,18 @@ var handleMove = function (req, res, next) {
     res.end();
 };
 function handle(handler) {
-    return function (req, res) {
-        handler(req, res, { menu: 'Predefined menu' });
+    return function (req, res, next) {
+        if (!req.model) {
+            req.model = {
+                menu: 'Predefined menu', json: () => {
+                    req.model.json = JSON.stringify(req.model);
+                }
+            };
+        }
+        handler(req, res, req.model, next);
     };
 }
-router.get('/users/:id/:state', handle(function (req, res, model) {
+router.get('/users/:id/:state', handle((req, res, model) => {
     model.title = 'User id = ' + JSON.stringify(req.params);
     res.render('index', model);
 }));
