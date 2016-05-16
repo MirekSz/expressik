@@ -4,7 +4,6 @@ var express = require('express');
 //var cheerio = require('cheerio');
 var interceptor = require('express-interceptor');
 
-
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -38,9 +37,22 @@ var app = express();
 var exphbs = require('express-handlebars');
 //https://github.com/ericf/express-handlebars
 
+var hbs = exphbs.create({
+    defaultLayout: 'single', extname: '.hbs', helpers: {
+        foo: function () {
+            return 'FOO!';
+        },
+        bar: function () {
+            return 'BAR!';
+        },
+       js: function(context) {
+            return JSON.stringify(context);
+        }
+    }
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', exphbs({defaultLayout: 'single', extname: '.hbs'}));
+app.engine('.hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
@@ -51,8 +63,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '')));
 
+var reqMiddle = require('./service/UknownMiddleware');
+var resMiddle = require('./service/ResponseMiddleware');
+
+app.use(reqMiddle);
 app.use('/', routes);
 app.use('/users', users);
+app.use(resMiddle);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

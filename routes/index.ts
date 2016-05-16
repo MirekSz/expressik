@@ -1,4 +1,4 @@
-import service from "./MoveService";
+import service from "../service/MoveService";
 import {Request, Response} from "express";
 import {RequestParamHandler} from "express";
 import {NextFunction} from "express";
@@ -24,9 +24,10 @@ router.get('/', handle((req:ExtRequest, res, model, next)=> {
         console.log(data);
         model['val'] = data;
         next();
-    }).catch((dupa)=> {
-        console.log('dupa: ');
-        console.log(dupa);
+    }).catch((err)=> {
+        console.log('err: ');
+        console.log(err);
+        next();
     });
 
 }));

@@ -25,7 +25,8 @@ class MoveServiceImpl {
             var conString2 = "postgres://verto_dev:verto_devverto_dev@strumyk-next-db:5432/verto_dev";
             var client = new pg.Client(conString2);
 
-            client.connect(()=> {
+            client.connect((err)=> {
+                if(err) reject(err);
                 var query = "SELECT ID_OPERATOR_GROUP,NAME as name FROM OPERATOR_GROUP";
                 client.query(query, (err, data)=> {
                     if (err)  reject(err);

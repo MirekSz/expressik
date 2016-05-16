@@ -1,5 +1,5 @@
 "use strict";
-const MoveService_1 = require("./MoveService");
+const MoveService_1 = require("../service/MoveService");
 var express = require('express');
 var router = express.Router();
 /* GET home page. */
@@ -11,9 +11,10 @@ router.get('/', handle((req, res, model, next) => {
         console.log(data);
         model['val'] = data;
         next();
-    }).catch((dupa) => {
-        console.log('dupa: ');
-        console.log(dupa);
+    }).catch((err) => {
+        console.log('err: ');
+        console.log(err);
+        next();
     });
 }));
 router.get('/', handle((req, res, model) => {
