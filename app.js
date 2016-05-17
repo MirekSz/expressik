@@ -19,7 +19,7 @@ var exphbs = require('express-handlebars');
 //https://github.com/ericf/express-handlebars
 
 var hbs = exphbs.create({
-    defaultLayout: 'single', extname: '.hbs', helpers: {
+    defaultLayout: 'default', extname: '.hbs', helpers: {
         foo: function () {
             return 'FOO!';
         },
