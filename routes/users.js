@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var lib = require('./lib');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/:id/:state', lib.handle((req, res, model) => {
+    model.title = 'User id = ' + JSON.stringify(req.params);
+    res.render('index', model);
+}));
 
 module.exports = router;

@@ -12,28 +12,9 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var moves = require('./routes/moves');
 var app = express();
-//
-//var finalParagraphInterceptor = interceptor(function (req, res) {
-//    return {
-//        // Only HTML responses will be intercepted
-//        isInterceptable: function () {
-//            return /text\/html/.test(res.get('Content-Type'));
-//        },
-//        // Appends a paragraph at the end of the response body
-//        intercept: function (body, send) {
-//
-//            var $document = cheerio.load(body);
-//
-//            $document('html').append('<script src="/node_modules/reload/lib/sockjs-0.3-min.js"></script>');
-//            $document('html').append('<script src="/node_modules/reload/lib/reload-client.js"></script>');
-//            send($document.html());
-//        }
-//    };
-//});
-//
-//// Add the interceptor middleware
-//app.use(finalParagraphInterceptor);
+
 var exphbs = require('express-handlebars');
 //https://github.com/ericf/express-handlebars
 
@@ -74,6 +55,7 @@ var resMiddle = require('./service/ResponseMiddleware');
 app.use(reqMiddle);
 app.use('/', routes);
 app.use('/users', users);
+app.use('/', moves);
 app.use(resMiddle);
 
 // catch 404 and forward to error handler

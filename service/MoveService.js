@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const pg = require('pg');
 const orm = require('orm');
+const lib_1 = require("./lib");
 class Board {
     constructor(x1y1, x2y1, x3y1, x1y2, x2y2, x3y2, x1y3, x2y3, x3y3) {
         this.x1y1 = x1y1;
@@ -22,11 +23,11 @@ class Board {
         this.x3y3 = x3y3;
     }
 }
+const conString = "postgres://verto_dev:verto_devverto_dev@strumyk-next-db:5432/verto_dev?debug=true";
 class MoveServiceImpl {
     getValueFromDB() {
         return new Promise(function (resolve, reject) {
-            var conString2 = "postgres://verto_dev:verto_devverto_dev@strumyk-next-db:5432/verto_dev";
-            var client = new pg.Client(conString2);
+            var client = new pg.Client(conString);
             client.connect((err) => {
                 if (err)
                     reject(err);
@@ -45,7 +46,9 @@ class MoveServiceImpl {
     }
     // @CheckParams()
     getNextMove(board) {
-        yo(); //.then((data)=>{console.log(data)});
+        yo().then((data) => {
+            console.log('ORM', data);
+        });
         var result;
         while (true) {
             var x = Math.floor((Math.random() * 3) + 1);
@@ -62,31 +65,45 @@ class MoveServiceImpl {
 const service = new MoveServiceImpl();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = service;
+var myCustomLevels = {
+    levels: {
+        foo: 0,
+        bar: 1,
+        baz: 2,
+        foobar: 3
+    },
+    colors: {
+        foo: 'blue',
+        bar: 'green',
+        baz: 'yellow',
+        foobar: 'red'
+    }
+};
 function yo() {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise(function (resolve, reject) {
-            var conString = "postgres://postgres:postgres@localhost:5433/postgres?debug=true";
             orm.connect(conString, function (err, db) {
                 if (err)
                     throw err;
-                var Person = db.define("teacher", {
-                    id: Number,
-                    email: String,
-                    firstname: String,
-                    lastname: String
+                var OperatorGroup = db.define('operator_group', {
+                    id: {
+                        mapsTo: 'id_operator_group',
+                        type: 'serial',
+                        key: true
+                    },
+                    name: String,
+                    active: Boolean
                 });
-                Person.find({ firstname: 'domi' }, function (e, data) {
-                    var domi = data[0];
-                    domi.lastname = 'asd';
-                    domi.save();
-                });
-                Person.get(101, (err, person) => {
+                OperatorGroup.find({ name: 'Lipna' }, function (err, data) {
                     if (err)
                         throw err;
-                    console.log(JSON.stringify(person));
-                    person.firstname = 'domi';
-                    // person.save();
-                    resolve(person.email);
+                    var group = data[0];
+                    lib_1.info('Grup', group.name);
+                });
+                OperatorGroup.get(119900, (err, group) => {
+                    if (err)
+                        throw err;
+                    resolve(JSON.stringify(group));
                 });
             });
         });
