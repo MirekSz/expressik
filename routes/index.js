@@ -20,7 +20,7 @@ router.get('/', lib_1.handle((req, res, model, next) => {
 }));
 router.get('/', lib_1.handle((req, res, model) => {
     console.log('2: ');
-    model.title = 'Express hura';
+    model.title = 'Express hura ';
     res.render('index', model);
 }));
 module.exports = router;

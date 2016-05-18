@@ -24,7 +24,7 @@ router.get('/', handle((req, res, model, next)=> {
 
 router.get('/', handle((req, res:Response, model)=> {
     console.log('2: ');
-    model.title = 'Express hura';
+    model.title = 'Express hura ';
     res.render('index', model);
 }));
 
