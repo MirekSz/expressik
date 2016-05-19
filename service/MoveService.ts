@@ -1,6 +1,6 @@
 import {CheckParams, CheckReturn} from "runtime-type-checks/index";
 import {info} from "./lib";
-import {OperatorGroup, Operator} from '../model/Models';
+import {PasswordRule, Operator} from '../model/Models';
 interface Move {
     x:number;
     y:number;
@@ -23,15 +23,22 @@ class MoveServiceImpl {
             console.log('start: ');
 
 
-            OperatorGroup.findById(100000).then((data:any)=> {
+            PasswordRule.findById(100000).then((data:any)=> {
                 console.log('data: ');
                 console.log(data.name);
+                data.getOperators().then((d)=> {
+                    console.log(d.length);
+                    for (var i = 0; i < d.length; i++) {
+                        var obj = d[i];
+                        console.log('obj.firstName: ', obj.firstName);
+                    }
+                });
                 return data;
             }).catch((e)=> {
                 console.error('e: ');
                 console.error(e);
             }).then((group)=> {
-                group.name = 'Testerzy Praw45';
+                group.name = 'Standardowa';
                 group.save();
             });
 
@@ -42,9 +49,9 @@ class MoveServiceImpl {
             }).catch((e)=> {
                 console.error('e: ');
                 console.error(e);
-            })
+            });
 
-            OperatorGroup.count().then(console.log.bind(console, 'Count2 :'));
+            PasswordRule.count().then(console.log.bind(console, 'Count2 :'));
             resolve("ok")
         });
     }

@@ -28,10 +28,10 @@ exports.Operator = sequelize.define('operator', {
     freezeTableName: true,
     timestamps: false
 });
-exports.OperatorGroup = sequelize.define('operator_group', {
+exports.PasswordRule = sequelize.define('password_rule', {
     id: {
         primaryKey: true,
-        field: 'id_operator_group',
+        field: 'id_password_rule',
         type: Sequelize.NUMERIC
     },
     name: {
@@ -45,4 +45,6 @@ exports.OperatorGroup = sequelize.define('operator_group', {
     freezeTableName: true,
     timestamps: false
 });
+exports.PasswordRule.hasMany(exports.Operator, { foreignKey: 'id_password_rule' });
+exports.Operator.hasOne(exports.PasswordRule, { foreignKey: 'id_password_rule', as: 'PasswordRule' });
 //# sourceMappingURL=Models.js.map

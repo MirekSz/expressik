@@ -17,15 +17,22 @@ class MoveServiceImpl {
     getValueFromDB() {
         return new Promise(function (resolve, reject) {
             console.log('start: ');
-            Models_1.OperatorGroup.findById(100000).then((data) => {
+            Models_1.PasswordRule.findById(100000).then((data) => {
                 console.log('data: ');
                 console.log(data.name);
+                data.getOperators().then((d) => {
+                    console.log(d.length);
+                    for (var i = 0; i < d.length; i++) {
+                        var obj = d[i];
+                        console.log('obj.firstName: ', obj.firstName);
+                    }
+                });
                 return data;
             }).catch((e) => {
                 console.error('e: ');
                 console.error(e);
             }).then((group) => {
-                group.name = 'Testerzy Praw45';
+                group.name = 'Standardowa';
                 group.save();
             });
             Models_1.Operator.findById(100000).then((data) => {
@@ -36,7 +43,7 @@ class MoveServiceImpl {
                 console.error('e: ');
                 console.error(e);
             });
-            Models_1.OperatorGroup.count().then(console.log.bind(console, 'Count2 :'));
+            Models_1.PasswordRule.count().then(console.log.bind(console, 'Count2 :'));
             resolve("ok");
         });
     }

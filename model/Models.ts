@@ -32,10 +32,10 @@ export var Operator = sequelize.define('operator', {
     timestamps: false
 });
 
-export var OperatorGroup = sequelize.define('operator_group', {
+export var PasswordRule = sequelize.define('password_rule', {
     id: {
         primaryKey: true,
-        field: 'id_operator_group',
+        field: 'id_password_rule',
         type: Sequelize.NUMERIC
     },
     name: {
@@ -50,3 +50,5 @@ export var OperatorGroup = sequelize.define('operator_group', {
     timestamps: false
 });
 
+PasswordRule.hasMany(Operator, {foreignKey: 'id_password_rule'});
+Operator.hasOne(PasswordRule, {foreignKey: 'id_password_rule', as: 'PasswordRule'});
