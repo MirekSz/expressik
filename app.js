@@ -52,11 +52,24 @@ app.use(express.static(path.join(__dirname, '')));
 var reqMiddle = require('./service/UknownMiddleware');
 var resMiddle = require('./service/ResponseMiddleware');
 
+app.use(function (req, res, next) {
+    if (req.path.endsWith('json')) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Autor", "MIrek");
+        var path = req.url.split('.')[0];
+        console.log('mam', path, req.path,res.header());
+        req.url = path;
+    }
+    next();
+})
+
 app.use(reqMiddle);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/', moves);
 app.use(resMiddle);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

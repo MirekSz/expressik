@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 import {handle} from './lib';
 
-/* GET home page. */
+
 router.get('/', handle((req, res, model, next)=> {
     console.log('1: ');
     model['name'] = 'mirek';
@@ -21,6 +21,12 @@ router.get('/', handle((req, res, model, next)=> {
     });
 
 }));
+
+
+router.get('/person',(req,res)=>{
+    res.send({name:'mirek'});
+    res.end();
+})
 
 router.get('/', handle((req, res:Response, model)=> {
     console.log('2: ');
